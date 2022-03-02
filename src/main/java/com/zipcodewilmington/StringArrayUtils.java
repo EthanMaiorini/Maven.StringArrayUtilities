@@ -1,5 +1,9 @@
 package com.zipcodewilmington;
 
+
+import java.util.Arrays;
+import java.util.Collections;
+
 /**
  * Created by leon on 1/29/18.
  */
@@ -42,7 +46,8 @@ public class StringArrayUtils {
      * @return true if the array contains the specified `value`
      */ // TODO
     public static boolean contains(String[] array, String value) {
-        return false;
+            Arrays.sort(array);
+        return Arrays.binarySearch(array,value) >=0;
     }
 
     /**
@@ -50,7 +55,8 @@ public class StringArrayUtils {
      * @return an array with identical contents in reverse order
      */ // TODO
     public static String[] reverse(String[] array) {
-        return null;
+        Collections.reverse(Arrays.asList(array));
+        return array;
     }
 
     /**
@@ -58,7 +64,24 @@ public class StringArrayUtils {
      * @return true if the order of the array is the same backwards and forwards
      */ // TODO
     public static boolean isPalindromic(String[] array) {
-        return false;
+        boolean isTrue = false;
+        int x=0;
+        String[] array2 = Arrays.copyOf(StringArrayUtils.reverse(array),array.length);
+
+//        for(int x =0;x<array.length;x++){
+//            if(!(array[x].equals(array2[x]))){
+//                return false;
+//            }
+//        }
+//
+//        return true;
+        for(String s: array){
+            if(s.equals(array2[x])){
+                isTrue = true;
+            }
+            x++;
+        }
+        return isTrue;
     }
 
     /**
@@ -84,7 +107,15 @@ public class StringArrayUtils {
      * @return array with identical contents excluding values of `value`
      */ // TODO
     public static String[] removeValue(String[] array, String valueToRemove) {
-        return null;
+        String[] newArray = new String[array.length-1];
+        int x = 0;
+        for(String s: array){
+            if (!(s.equals(valueToRemove))){
+                newArray[x] = s;
+                x++;
+            }
+        }
+        return newArray;
     }
 
     /**
