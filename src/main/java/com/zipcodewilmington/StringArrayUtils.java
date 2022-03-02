@@ -55,8 +55,9 @@ public class StringArrayUtils {
      * @return an array with identical contents in reverse order
      */ // TODO
     public static String[] reverse(String[] array) {
-        Collections.reverse(Arrays.asList(array));
-        return array;
+        String[] reverseArray = Arrays.copyOf(array,array.length);
+        Collections.reverse(Arrays.asList(reverseArray));
+        return reverseArray;
     }
 
     /**
@@ -79,6 +80,7 @@ public class StringArrayUtils {
             if(s.equals(array2[x])){
                 isTrue = true;
             }
+            if (x<array.length-1)
             x++;
         }
         return isTrue;
