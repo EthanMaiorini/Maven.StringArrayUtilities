@@ -3,6 +3,8 @@ package com.zipcodewilmington;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by leon on 1/29/18.
@@ -69,18 +71,10 @@ public class StringArrayUtils {
         int x=0;
         String[] array2 = Arrays.copyOf(StringArrayUtils.reverse(array),array.length);
 
-//        for(int x =0;x<array.length;x++){
-//            if(!(array[x].equals(array2[x]))){
-//                return false;
-//            }
-//        }
-//
-//        return true;
         for(String s: array){
             if(s.equals(array2[x])){
                 isTrue = true;
             }
-            if (x<array.length-1)
             x++;
         }
         return isTrue;
@@ -91,7 +85,22 @@ public class StringArrayUtils {
      * @return true if each letter in the alphabet has been used in the array
      */ // TODO
     public static boolean isPangramic(String[] array) {
-        return false;
+        StringBuilder s = new StringBuilder();
+        StringBuilder answer = new StringBuilder();
+        for(int x=0;x<array.length;x++){
+            s = s.append(array[x].toLowerCase());
+        }
+        String patternString = "[a-z]";
+        Pattern pattern = Pattern.compile(patternString);
+        Matcher matcher = pattern.matcher(s);
+        for (int i = 0;matcher.find(); i++) {
+            if(answer.indexOf(matcher.group()) == -1)
+            answer.append(matcher.group()).toString();
+        }
+        if(answer.length() == 26)
+            return true;
+        else
+            return false;
     }
 
     /**
@@ -100,7 +109,13 @@ public class StringArrayUtils {
      * @return number of occurrences the specified `value` has occurred
      */ // TODO
     public static int getNumberOfOccurrences(String[] array, String value) {
-        return 0;
+        int count = 0;
+        for(String s:array){
+            if(s.equals(value)){
+                count++;
+            }
+        }
+        return count;
     }
 
     /**
@@ -125,7 +140,20 @@ public class StringArrayUtils {
      * @return array of Strings with consecutive duplicates removes
      */ // TODO
     public static String[] removeConsecutiveDuplicates(String[] array) {
-        return null;
+        String[] newArr = new String[array.length];
+        int count =0,count2=0;
+        for(String s:array){
+            if (!(s.equals(array[count+1]))) {
+                newArr[count2]= s;
+                count2++;
+            }
+            count++;
+        }
+        if(count2 < array.length){
+            StringArrayUtils.removeValue(newArr,newArr[count2]);
+            count2++;
+        }
+        return newArr;
     }
 
     /**
@@ -133,7 +161,17 @@ public class StringArrayUtils {
      * @return array of Strings with each consecutive duplicate occurrence concatenated as a single string in an array of Strings
      */ // TODO
     public static String[] packConsecutiveDuplicates(String[] array) {
-        return null;
+        String[] result = Arrays.copyOf(array,array.length);
+        for(int x = 0;x<array.length-1;x++) {
+            int i = x+1;
+            while (array[x].equals(array[i])) {
+                    result[x] += array[i];
+                    if(i <result.length)
+                        result = StringArrayUtils.removeValue(result, result[i]);
+                    i++;
+                }
+            }
+        return result;
     }
 
 
