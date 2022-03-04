@@ -1,6 +1,7 @@
 package com.zipcodewilmington;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.regex.Matcher;
@@ -48,8 +49,9 @@ public class StringArrayUtils {
      * @return true if the array contains the specified `value`
      */ // TODO
     public static boolean contains(String[] array, String value) {
-            Arrays.sort(array);
-        return Arrays.binarySearch(array,value) >=0;
+           // Arrays.sort(array);
+       // return Arrays.binarySearch(array,value) >=0;
+        return Arrays.asList(array).contains(value);
     }
 
     /**
@@ -67,17 +69,17 @@ public class StringArrayUtils {
      * @return true if the order of the array is the same backwards and forwards
      */ // TODO
     public static boolean isPalindromic(String[] array) {
-        boolean isTrue = false;
-        int x=0;
-        String[] array2 = Arrays.copyOf(StringArrayUtils.reverse(array),array.length);
-
-        for(String s: array){
-            if(s.equals(array2[x])){
-                isTrue = true;
-            }
-            x++;
-        }
-        return isTrue;
+//        boolean isTrue = false;
+//        int x=0;
+//        String[] array2 = Arrays.copyOf(StringArrayUtils.reverse(array),array.length);
+//        for(String s: array){
+//            if(s.equals(array2[x])){
+//                isTrue = true;
+//            }
+//            x++;
+//        }
+        //return isTrue;
+        return Arrays.equals(array,StringArrayUtils.reverse(array));
     }
 
     /**
@@ -126,11 +128,12 @@ public class StringArrayUtils {
     public static String[] removeValue(String[] array, String valueToRemove) {
         String[] newArray = new String[array.length-1];
         int x = 0;
-        for(String s: array){
+         for(String s: array){
             if (!(s.equals(valueToRemove))){
                 newArray[x] = s;
-                x++;
-            }
+              x++;
+              break;
+          }
         }
         return newArray;
     }
@@ -140,38 +143,43 @@ public class StringArrayUtils {
      * @return array of Strings with consecutive duplicates removes
      */ // TODO
     public static String[] removeConsecutiveDuplicates(String[] array) {
-        String[] newArr = new String[array.length];
-        int count =0,count2=0;
-        for(String s:array){
-            if (!(s.equals(array[count+1]))) {
-                newArr[count2]= s;
-                count2++;
+       ArrayList<String> newArr = new ArrayList<>();
+//
+            int n = array.length;
+            if (n==0 || n==1){
+                return array;
             }
-            count++;
+            int j = 0;//for next element
+            for (int i=0; i < n-1; i++){
+                if (array[i] != array[i+1]){
+                    newArr.add(array[i]);
+                }
+            }
+            newArr.add(array[n-1]);
+            return newArr.toArray(new String[0]);
         }
-        if(count2 < array.length){
-            StringArrayUtils.removeValue(newArr,newArr[count2]);
-            count2++;
-        }
-        return newArr;
-    }
+   // }
 
     /**
      * @param array array of chars
      * @return array of Strings with each consecutive duplicate occurrence concatenated as a single string in an array of Strings
      */ // TODO
     public static String[] packConsecutiveDuplicates(String[] array) {
-        String[] result = Arrays.copyOf(array,array.length);
-        for(int x = 0;x<array.length-1;x++) {
-            int i = x+1;
-            while (array[x].equals(array[i])) {
-                    result[x] += array[i];
-                    if(i <result.length)
-                        result = StringArrayUtils.removeValue(result, result[i]);
-                    i++;
-                }
+        ArrayList<String> result = new ArrayList<String>(Arrays.asList(array));
+            String s ="";
+        boolean removed = true;
+        for (int i=0; i < ((result.size())-1); i++){
+               s = result.get(i);
+            while((result.get(i)).equals(result.get(i+1)) && (i+1 <= result.size())) {
+                s = s.concat(result.get(i+1));
+                removed = result.remove(result.get(i+1));
+                if(result.size()-1 == i)
+                    break;
             }
-        return result;
+            result.set(i,s);
+            s="";
+        }
+        return (result.toArray(new String[0]));
     }
 
 
