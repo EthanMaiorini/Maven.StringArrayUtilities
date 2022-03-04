@@ -167,6 +167,8 @@ public class StringArrayUtils {
     public static String[] packConsecutiveDuplicates(String[] array) {
         ArrayList<String> result = new ArrayList<String>(Arrays.asList(array));
             String s ="";
+            if((result.size() == 0) || (result.size() == 1))
+                return (result.toArray(new String[0]));
         boolean removed = true;
         for (int i=0; i < ((result.size())-1); i++){
                s = result.get(i);
